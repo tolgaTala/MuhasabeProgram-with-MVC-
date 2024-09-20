@@ -1,0 +1,84 @@
+﻿@model List<SalerBuyInfoDto>
+
+<div class="container-xxl flex-grow-1 container-p-y">
+
+
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Satıcı Yönetimi /</span> @Model[0].Saler.Name
+    </h4>
+
+    <!-- Basic Bootstrap Table -->
+    <div class="card p-3">
+        @* <h5 class="card-header">Table Basic</h5> *@
+        <div class="table-responsive text-nowrap m-4">
+
+            <table class="table table-bordered" id="salersTable" width="100%" cellpadding="0">
+                <thead>
+                    <tr>
+                        <th>Evrak No</th>
+                        <th>İsim</th>
+                        <th>Ürün Adı</th>
+                        <th>Alış Tarihi</th>
+                        <th>Alış Adeti</th>
+                        <th>Alış Tutarı</th>                        
+                        <th>İşlemler</th>
+
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Evrak No</th>
+                        <th>İsim</th>
+                        <th>Ürün Adı</th>
+                        <th>Alış Tarihi</th>
+                        <th>Alış Adeti</th>
+                        <th>Alış Tutarı</th>
+                        <th>İşlemler</th>
+
+                    </tr>
+                </tfoot>
+                <tbody class="table-border-bottom-0">
+                    @foreach (var saler in Model)
+                    {
+                        <tr name="@saler.Id">
+                            <td>@saler.EvrakNo</td>
+                            <td>@saler.Saler.Name</td>
+                            <td>
+                                <a asp-controller="Product" asp-action="ProductDetail" asp-route-ProductId="@saler.Product.Id">
+                                    @saler.Product.Name
+                                </a>
+                            </td>
+                            <td>@saler.AlisTarihi.ToShortDateString()</td>
+                            <td>@saler.Stok</td>
+                            <td>@saler.Fiyat</td>
+                            <td>
+                                <a class="btn btn-primary btn-sm" data-id="@saler.Id" asp-controller="Buy" asp-action="Update" asp-route-BuyId="@saler.Id">
+                                    <i class="bx bxs-edit"></i>
+                                </a>
+                                @if (!saler.IsDeleted)
+                                {
+                                    <a class="btn btn-danger btn-sm" data-id="@saler.Id" asp-controller="Buy" asp-action="Delete" asp-route-buyId="@saler.Id">
+                                        <i class="bx bx-minus-circle"></i>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-success btn-sm" data-id="@saler.Id" asp-controller="Buy" asp-action="UndoDelete" asp-route-buyId="@saler.Id">
+                                        <i class="bx bx-plus-circle"></i>
+                                    </a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!--/ Basic Bootstrap Table -->
+
+
+</div>
+
+@section Scripts {
+    <script src="~/js/salerIndex.js" type="application/ecmascript"></script>
+}

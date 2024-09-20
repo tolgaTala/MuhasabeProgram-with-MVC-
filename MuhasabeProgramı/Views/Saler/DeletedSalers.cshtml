@@ -1,0 +1,93 @@
+﻿@model List<SalerDto>
+
+<div class="container-xxl flex-grow-1 container-p-y">
+
+
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Satıcı Yönetimi /</span> Satıcılar
+    </h4>
+
+    <!-- Basic Bootstrap Table -->
+    <div class="card p-3">
+        @* <h5 class="card-header">Table Basic</h5> *@
+        <div class="table-responsive text-nowrap m-4">
+
+
+            <a class="btn btn-success mb-3" asp-controller="Saler" asp-action="Add">
+                Satıcı Ekle <i class="bx bx-plus"></i>
+            </a>
+
+
+            <table class="table table-bordered" id="salersTable" width="100%" cellpadding="0">
+                <thead>
+                    <tr>
+                        <th>İsim</th>
+                        <th>Telefon Numarası</th>
+                        <th>Adres</th>
+                        <th>Vergi Numarası</th>
+                        <th>Oluşturulma Tarihi</th>
+                        <th>Durum</th>
+                        <th>İşlemler</th>
+
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>İsim</th>
+                        <th>Telefon Numarası</th>
+                        <th>Adres</th>
+                        <th>Vergi Numarası</th>
+                        <th>Oluşturulma Tarihi</th>
+                        <th>Durum</th>
+                        <th>İşlemler</th>
+
+                    </tr>
+                </tfoot>
+                <tbody class="table-border-bottom-0">
+                    @foreach (var saler in Model)
+                    {
+                        <tr name="@saler.Id">
+                            <td>
+                                <a asp-controller="Saler" asp-action="SalerBuyInfoDetail" asp-route-SalerId="@saler.Id">
+                                    @saler.Name
+                                </a>
+                            </td>
+                            <td>@saler.PhoneNumber</td>
+                            <td>@saler.Address</td>
+                            <td>@saler.TaxNo</td>
+                            <td>@saler.CreatedDate.ToShortDateString()</td>
+                            <td>@(saler.IsDeleted ? "Aktif Değil" : "Aktif")</td>
+
+                            <td>
+                                <a class="btn btn-primary btn-sm" data-id="@saler.Id" asp-controller="Saler" asp-action="Update" asp-route-salerId="@saler.Id">
+                                    <i class="bx bxs-edit"></i>
+                                </a>
+                                @if (!saler.IsDeleted)
+                                {
+                                    <a class="btn btn-danger btn-sm" data-id="@saler.Id" asp-controller="Saler" asp-action="Delete" asp-route-salerId="@saler.Id">
+                                        <i class="bx bx-minus-circle"></i>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-success btn-sm" data-id="@saler.Id" asp-controller="Saler" asp-action="UndoDelete" asp-route-salerId="@saler.Id">
+                                        <i class="bx bx-plus-circle"></i>
+                                    </a>
+                                }
+
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!--/ Basic Bootstrap Table -->
+
+
+</div>
+
+@section Scripts {
+    <script src="~/js/salerIndex.js" type="application/ecmascript"></script>
+}

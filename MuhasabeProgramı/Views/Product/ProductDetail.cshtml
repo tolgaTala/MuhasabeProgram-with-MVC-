@@ -1,0 +1,216 @@
+﻿@model ProductDto
+
+
+<div class="container-xxl flex-grow-1 container-p-y">
+
+
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Ürünler Yönetimi /</span> Ürünler
+    </h4>
+
+    
+
+    <!-- Basic Bootstrap Table -->
+    <div class="card p-3">
+        @* <h5 class="card-header">Table Basic</h5> *@
+        <div class="table-responsive text-nowrap m-4">
+
+            <table class="table table-bordered" width="100%" cellpadding="0">
+                <thead>
+                    <tr>
+                        <th>Ürün İsim</th>
+                        <th>Yıl Sonu Stok</th>
+                        <th>Yıl Sonu Maliyet</th>
+                        <th>Yıl Sonu Tutar</th>
+                        <th>Ort. Maliyet</th>
+                        <th>Kalan Stok</th>
+                        <th>Kar Oran</th>
+                        <th>Kar Fiyat</th>
+                        <th>Oluşturma Tarihi</th>
+                        <th>Durumu</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                <tbody class="table-border-bottom-0">
+                        <tr name="@Model.Id">
+                            <td>@Model.Name</td>
+                            <td>@Model.EndOfYearStock</td>
+                            <td>@Model.EndOfYearPrice</td>
+                            <td>@Model.EndOfYearTotal</td>
+                            <td>@Model.OrtalamaMaliyet</td>
+                            <td>@Model.KalanStock</td>
+                            <td>@Model.KarOran</td>
+                            <td>@Model.KarFiyat</td>
+                            <td>@Model.CreatedDate.ToShortDateString()</td>
+                            <td>@(Model.IsDeleted ? "Aktif Değil" : "Aktif")</td>
+
+                            @* <td>
+                                <a class="btn btn-primary btn-sm" data-id="@Model.Id" asp-controller="Product" asp-action="Update" asp-route-ProductId="@Model.Id">
+                                    <i class="bx bxs-edit"></i>
+                                </a>
+                                @if (!Model.IsDeleted)
+                                {
+                                    <a class="btn btn-danger btn-sm" data-id="@Model.Id" asp-controller="Product" asp-action="Delete" asp-route-ProductId="@Model.Id">
+                                        <i class="bx bx-minus-circle"></i>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-success btn-sm" data-id="@Model.Id" asp-controller="Product" asp-action="UndoDelete" asp-route-ProductId="@Model.Id">
+                                        <i class="bx bx-plus-circle"></i>
+                                    </a>
+                                }
+
+                            </td> *@
+
+                        </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!--/ Basic Bootstrap Table -->
+    <div class="row">
+        <div class="col-md-6">
+                <h4 class="fw-bold py-3 mb-4">
+                    <span class="text-muted fw-light">Alış Yönetimi /</span> Alışlar
+                </h4>
+
+                <!-- Basic Bootstrap Table -->
+                <div class="card p-3">
+                    @* <h5 class="card-header">Table Basic</h5> *@
+                    <div class="table-responsive text-nowrap m-4">
+
+
+                        <a class="btn btn-success mb-3" asp-controller="Buy" asp-action="Add" asp-route-ProductId="@Model.Id">
+                            Alış Ekle <i class="bx bx-plus"></i>
+                        </a>
+
+
+                        <table class="table table-bordered" width="100%" cellpadding="0">
+                            <thead>
+                                <tr>
+                                    <th>Kİmden</th>
+                                    <th>Alış Tarİhİ</th>
+                                    <th>Adet</th>
+                                    <th>Fİyat</th>
+                                    <th>Tutar</th>
+                                    <th>Durumu</th>
+                                    <th>İşlemler</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-border-bottom-0">
+                                
+                                @foreach (var buy in Model.Buys)
+                                {
+                                decimal toplamAlisTutar = 0;
+                                toplamAlisTutar += buy.Tutar;
+
+                                    <tr name="@buy.Id">                                    
+                                        <td>
+                                            <a asp-controller="Saler" asp-action="SalerBuyInfoDetail" asp-route-SalerId="@buy.Saler.Id">
+                                                @buy.Saler.Name
+                                            </a>
+                                        </td>
+                                        <td>@buy.AlisTarihi.ToShortDateString()</td>
+                                        <td>@buy.Stok</td>
+                                        <td>@buy.Fiyat</td>
+                                        <td>@buy.Tutar</td>
+                                        <td>@(buy.IsDeleted ? "Aktif Değil" : "Aktif")</td>
+
+                                        <td>
+                                            <a class="btn btn-primary btn-sm" data-id="@buy.Id" asp-controller="Buy" asp-action="Update" asp-route-buyId="@buy.Id">
+                                                <i class="bx bxs-edit"></i>
+                                            </a>
+                                            
+                                            <a class="btn btn-danger btn-sm" data-id="@buy.Id" asp-controller="Buy" asp-action="Delete" asp-route-buyId="@buy.Id">
+                                                <i class="bx bx-minus-circle"></i>
+                                            </a>  
+                                        </td>
+                                    </tr>
+                                }
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>toplamAlisTutar</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!--/ Basic Bootstrap Table -->
+
+
+            </div>
+
+        <div class="col-md-6">
+            <h4 class="fw-bold py-3 mb-4">
+                <span class="text-muted fw-light">Satış Yönetimi /</span> Satışlar
+            </h4>
+
+            <!-- Basic Bootstrap Table -->
+            <div class="card p-3">
+                @* <h5 class="card-header">Table Basic</h5> *@
+                <div class="table-responsive text-nowrap m-4">
+
+
+                    <a class="btn btn-success mb-3" asp-controller="Sale" asp-action="Add" asp-route-ProductId="@Model.Id">
+                        Satış Ekle <i class="bx bx-plus"></i>
+                    </a>
+
+
+                    <table class="table table-bordered" id="productsTable" width="100%" cellpadding="0">
+                        <thead>
+                            <tr>
+                                <th>Kİme</th>
+                                <th>Satış Tarİhİ</th>
+                                <th>Adet</th>
+                                <th>Fİyat</th>
+                                <th>Tutar</th>
+                                <th>Durumu</th>
+                                <th>İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-border-bottom-0">
+                            @foreach (var sale in Model.Sales)
+                            {
+                                <tr name="@sale.Id">
+                                    <td>@sale.Saler.Name</td>
+                                    @* <td>BURASI YAPILACAK "SATICI"</td> *@
+                                    <td>@sale.SatisTarihi.ToShortDateString()</td>
+                                    <td>@sale.Stok</td>
+                                    <td>@sale.Fiyat</td>
+                                    <td>@sale.Tutar</td>
+                                    <td>@(sale.IsDeleted ? "Aktif Değil" : "Aktif")</td>
+
+                                    <td>
+                                        <a class="btn btn-primary btn-sm" data-id="@sale.Id" asp-controller="Sale" asp-action="Update" asp-route-saleId="@sale.Id">
+                                            <i class="bx bxs-edit"></i>
+                                        </a>
+
+                                        <a class="btn btn-danger btn-sm" data-id="@sale.Id" asp-controller="Sale" asp-action="Delete" asp-route-saleId="@sale.Id">
+                                            <i class="bx bx-minus-circle"></i>
+                                        </a>
+
+                                    </td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!--/ Basic Bootstrap Table -->
+
+
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    @* <script src="~/js/productIndex.js" type="application/ecmascript"></script> *@
+}

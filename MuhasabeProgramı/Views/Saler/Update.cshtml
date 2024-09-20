@@ -1,0 +1,56 @@
+﻿@model SalerUpdateDto
+
+<div class="container-xxl flex-grow-1 container-p-y">
+
+
+    <h4 class="py-3 mb-4">
+        <span class="text-muted fw-light">Satıcı Yönetimi /</span> Satıcı Güncelle
+    </h4>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-4">
+                <h5 class="card-header"></h5>
+                <div class="card-body">
+                    <form asp-controller="Saler" asp-action="Update" method="post" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly"></div>
+                        <input type="hidden" asp-for="Id" />
+                        
+                        <div class="form-group">
+                            <label asp-for="Name" class="form-label">Satıcı İsmi</label>
+                            <input asp-for="Name" type="text" class="form-control mb-3" id="defaultFormControlInput" placeholder="Lütfen satıcı ismi Giriniz" aria-describedby="defaultFormControlHelp">
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Address" class="form-label">Adres</label>
+                            <input asp-for="Address" type="text" class="form-control mb-3" id="defaultFormControlInput" placeholder="Lütfen satıcı adresi Giriniz" aria-describedby="defaultFormControlHelp">
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="PhoneNumber" class="form-label">Telefon Numarası</label>
+                            <input asp-for="PhoneNumber" type="text" class="form-control mb-3" id="defaultFormControlInput" placeholder="Lütfen satıcı telefonunu Giriniz" aria-describedby="defaultFormControlHelp">
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="TaxNo" class="form-label">Vergi Numarası</label>
+                            <input asp-for="TaxNo" type="text" class="form-control mb-3" id="defaultFormControlInput" placeholder="Lütfen satıcı vergi numarasını Giriniz" aria-describedby="defaultFormControlHelp">
+                            <span asp-validation-for="TaxNo" class="text-danger"></span>
+                        </div>
+
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-block">Kaydet</button>
+                        </div>
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
